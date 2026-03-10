@@ -1,0 +1,1175 @@
+<!DOCTYPE html>
+<html lang="fi" id="html-root">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio</title>
+  <style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Mono:wght@400;700&display=swap');
+  :root {
+    --ink: #0d0d0d;
+    --paper: #f4f0e8;
+    --bone: #e8e2d4;
+    --ash: #8a8278;
+    --frost: #c8d4d8;
+    --arctic: #2a3a42;
+    --ember: #b85c38;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Cormorant Garamond', 'Palatino Linotype', Palatino, Georgia, serif;
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE TEXTURE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.5;
+  }
+
+  /* ── NAVIGATION ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    padding: 1.5rem 4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+    mix-blend-mode: multiply;
+  }
+
+  .nav-name {
+    font-family: 'Space Mono', 'Courier New', Courier, monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ash);
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ash);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  .nav-links a:hover { color: var(--ink); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+  }
+
+  .hero-left {
+    background: var(--arctic);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 6rem 4rem 5rem;
+    position: relative;
+  }
+
+  .hero-left::after {
+    content: '';
+    position: absolute;
+    top: 0; right: -1px; bottom: 0;
+    width: 80px;
+    background: linear-gradient(to right, var(--arctic), transparent);
+  }
+
+  .hero-eyebrow {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--frost);
+    opacity: 0.6;
+    margin-bottom: 2rem;
+  }
+
+  .hero-name {
+    font-size: clamp(3.5rem, 6vw, 5.5rem);
+    font-weight: 300;
+    line-height: 1.0;
+    color: var(--paper);
+    letter-spacing: -0.02em;
+  }
+
+  .hero-name em {
+    font-style: italic;
+    color: var(--frost);
+  }
+
+  .hero-tagline {
+    margin-top: 2rem;
+    font-size: 1.15rem;
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--frost);
+    opacity: 0.75;
+    max-width: 34ch;
+  }
+
+  .hero-right {
+    background: var(--paper);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 6rem 4rem 5rem 5rem;
+  }
+
+  .hero-statement {
+    font-size: clamp(1.6rem, 2.5vw, 2.4rem);
+    font-weight: 300;
+    line-height: 1.45;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    max-width: 26ch;
+  }
+
+  .hero-statement strong {
+    font-weight: 600;
+  }
+
+  .hero-statement em {
+    font-style: italic;
+    color: var(--ember);
+  }
+
+  .hero-scroll {
+    margin-top: 3rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ash);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .hero-scroll::before {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 1px;
+    background: var(--ash);
+  }
+
+  /* ── SECTION BASE ── */
+  section {
+    padding: 8rem 4rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--ember);
+    margin-bottom: 1rem;
+  }
+
+  .section-title {
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    font-weight: 300;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    margin-bottom: 4rem;
+    max-width: 22ch;
+  }
+
+  .section-title em {
+    font-style: italic;
+  }
+
+  /* ── DIVIDER ── */
+  .full-divider {
+    width: 100%;
+    height: 1px;
+    background: var(--bone);
+    margin: 0;
+  }
+
+  /* ── ABOUT ── */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 6rem;
+    align-items: start;
+  }
+
+  .about-sidebar {}
+
+  .about-sidebar-item {
+    margin-bottom: 2.5rem;
+  }
+
+  .about-sidebar-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--ash);
+    margin-bottom: 0.5rem;
+  }
+
+  .about-sidebar-value {
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+  }
+
+  .about-body p {
+    font-size: 1.25rem;
+    font-weight: 300;
+    line-height: 1.75;
+    color: var(--ink);
+    margin-bottom: 1.5rem;
+    max-width: 58ch;
+  }
+
+  .about-body p:first-child::first-letter {
+    font-size: 3.5rem;
+    float: left;
+    line-height: 0.85;
+    margin-right: 0.15em;
+    font-weight: 300;
+    color: var(--ember);
+  }
+
+  .about-body .superpower {
+    margin-top: 2.5rem;
+    padding: 2rem 2.5rem;
+    border-left: 2px solid var(--ember);
+    background: var(--bone);
+  }
+
+  .about-body .superpower p {
+    font-size: 1.1rem;
+    font-style: italic;
+    color: var(--arctic);
+    margin-bottom: 0;
+  }
+
+  /* ── WORK ── */
+  #works { padding: 8rem 4rem; max-width: 1200px; margin: 0 auto; }
+
+  .works-intro {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    margin-bottom: 5rem;
+  }
+
+  .works-intro p {
+    font-size: 1.1rem;
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--ash);
+  }
+
+  /* Project cards */
+  .project {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    margin-bottom: 0;
+    border-top: 1px solid var(--bone);
+    min-height: 340px;
+  }
+
+  .project:last-child {
+    border-bottom: 1px solid var(--bone);
+  }
+
+  .project.reverse {
+    direction: rtl;
+  }
+  .project.reverse > * {
+    direction: ltr;
+  }
+
+  .project-visual {
+    background: var(--arctic);
+    position: relative;
+    overflow: hidden;
+    min-height: 340px;
+  }
+
+  .project-visual.warm { background: #3a2a20; }
+  .project-visual.cold { background: var(--arctic); }
+  .project-visual.mid  { background: #1e2e28; }
+  .project-visual.pale { background: #2e2a38; }
+
+  .project-visual-inner {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 3rem;
+  }
+
+  .project-icon {
+    font-size: 3rem;
+    opacity: 0.5;
+  }
+
+  .project-visual-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--frost);
+    opacity: 0.5;
+    text-align: center;
+  }
+
+  /* Decorative geometric shape in visual */
+  .geo {
+    position: absolute;
+    border: 1px solid rgba(200,212,216,0.15);
+  }
+  .geo-1 { width: 160px; height: 160px; top: 30px; right: 40px; transform: rotate(15deg); }
+  .geo-2 { width: 80px; height: 80px; bottom: 50px; left: 60px; transform: rotate(-10deg); }
+
+  .project-content {
+    padding: 4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .project-number {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.3em;
+    color: var(--ash);
+    margin-bottom: 1.5rem;
+  }
+
+  .project-category {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--ember);
+    margin-bottom: 0.75rem;
+  }
+
+  .project-title {
+    font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+    font-weight: 300;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    margin-bottom: 1.25rem;
+  }
+
+  .project-title em { font-style: italic; }
+
+  .project-desc {
+    font-size: 1rem;
+    font-weight: 300;
+    line-height: 1.7;
+    color: #444;
+    margin-bottom: 1.5rem;
+    max-width: 40ch;
+  }
+
+  .project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.35rem 0.75rem;
+    border: 1px solid var(--bone);
+    color: var(--ash);
+  }
+
+  .tag.new {
+    border-color: var(--ember);
+    color: var(--ember);
+  }
+
+  .project-status {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ash);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .status-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--ash);
+  }
+  .status-dot.active { background: #6ba87a; }
+  .status-dot.complete { background: var(--ember); }
+
+  /* ── SKILLS SECTION ── */
+  #skills { background: var(--arctic); color: var(--paper); max-width: 100%; padding: 8rem; }
+
+  #skills .section-label { color: var(--frost); opacity: 0.5; }
+  #skills .section-title { color: var(--paper); max-width: 100%; }
+
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4rem;
+    margin-top: 0;
+  }
+
+  .skill-group {}
+
+  .skill-group-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--frost);
+    opacity: 0.5;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(200,212,216,0.15);
+  }
+
+  .skill-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(200,212,216,0.07);
+  }
+
+  .skill-name {
+    font-size: 1.05rem;
+    font-weight: 300;
+    color: var(--paper);
+  }
+
+  .skill-years {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.1em;
+    color: var(--frost);
+    opacity: 0.4;
+  }
+
+  /* ── DIRECTION ── */
+  .direction-block {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 8rem;
+    max-width: 100%;
+  }
+
+  .direction-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: center;
+  }
+
+  .direction-quote {
+    font-size: clamp(1.8rem, 3vw, 2.8rem);
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1.35;
+    letter-spacing: -0.01em;
+    color: var(--paper);
+  }
+
+  .direction-quote span {
+    color: var(--ember);
+    font-style: normal;
+  }
+
+  .direction-list {
+    list-style: none;
+  }
+
+  .direction-list li {
+    font-size: 1.05rem;
+    font-weight: 300;
+    line-height: 1.6;
+    color: rgba(244,240,232,0.65);
+    padding: 1.25rem 0;
+    border-bottom: 1px solid rgba(244,240,232,0.08);
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+  }
+
+  .direction-list li::before {
+    content: '→';
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--ember);
+    flex-shrink: 0;
+  }
+
+  /* ── CONTACT / FOOTER ── */
+  footer {
+    padding: 6rem 4rem 3rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: end;
+  }
+
+  .footer-headline {
+    font-size: clamp(2rem, 3.5vw, 3.2rem);
+    font-weight: 300;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+  }
+
+  .footer-headline em {
+    font-style: italic;
+    color: var(--ember);
+  }
+
+  .footer-contact {}
+
+  .footer-contact-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--ash);
+    margin-bottom: 1.5rem;
+  }
+
+  .footer-contact-email {
+    font-size: 1.4rem;
+    font-weight: 300;
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 1px solid var(--bone);
+    padding-bottom: 0.25rem;
+    transition: border-color 0.3s, color 0.3s;
+  }
+
+  .footer-contact-email:hover {
+    color: var(--ember);
+    border-color: var(--ember);
+  }
+
+  .footer-bottom {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 3rem;
+    margin-top: 3rem;
+    border-top: 1px solid var(--bone);
+  }
+
+  .footer-copy {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.15em;
+    color: var(--ash);
+  }
+
+  .footer-note {
+    font-size: 0.9rem;
+    font-style: italic;
+    color: var(--ash);
+  }
+
+  /* ── ANIMATIONS ── */
+  .fade-in {
+    opacity: 1;
+    transform: none;
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .fade-in.animate-start {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  .fade-in.visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* ── LANGUAGE SWITCHER ── */
+  .lang-switch {
+    display: flex;
+    gap: 0.4rem;
+    align-items: center;
+    margin-left: 2rem;
+  }
+
+  .lang-btn {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ash);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.2rem 0.4rem;
+    transition: color 0.3s;
+  }
+
+  .lang-btn.active {
+    color: var(--ink);
+    border-bottom: 1px solid var(--ink);
+  }
+
+  .lang-btn:hover { color: var(--ink); }
+
+  .lang-sep {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--ash);
+    opacity: 0.4;
+  }
+
+  /* Language visibility */
+  [lang="fi"] .en, [lang="en"] .fi { display: none; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav { padding: 1.5rem 2rem; }
+    .nav-links { display: none; }
+
+    .hero { grid-template-columns: 1fr; }
+    .hero-left { min-height: 55vh; padding: 7rem 2rem 3rem; }
+    .hero-left::after { display: none; }
+    .hero-right { padding: 3rem 2rem 4rem; }
+
+    section, #works { padding: 5rem 2rem; }
+    .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .project { grid-template-columns: 1fr; }
+    .project.reverse { direction: ltr; }
+    .project-visual { min-height: 240px; }
+    .project-content { padding: 2.5rem 2rem; }
+    .works-intro { grid-template-columns: 1fr; gap: 1.5rem; }
+
+    #skills { padding: 5rem 2rem; }
+    .skills-grid { grid-template-columns: 1fr; gap: 3rem; }
+
+    .direction-block { padding: 5rem 2rem; }
+    .direction-inner { grid-template-columns: 1fr; gap: 3rem; }
+
+    footer { padding: 5rem 2rem 3rem; grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <span class="nav-name">piika alahuhta</span>
+  <ul class="nav-links">
+    <li><a href="#about"><span class="fi">Tausta</span><span class="en">About</span></a></li>
+    <li><a href="#works"><span class="fi">Työt</span><span class="en">Work</span></a></li>
+    <li><a href="#skills"><span class="fi">Osaaminen</span><span class="en">Skills</span></a></li>
+    <li><a href="#direction"><span class="fi">Suunta</span><span class="en">Direction</span></a></li>
+    <li><a href="images/cv.pdf" target="_blank" rel="noopener" style="color:var(--ember); border-bottom: 1px solid var(--ember); padding-bottom:1px;">CV</a></li>
+    <li class="lang-switch">
+      <button class="lang-btn active" id="btn-fi" onclick="setLang('fi')">FI</button>
+      <span class="lang-sep">/</span>
+      <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
+    </li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-left">
+    <p class="hero-eyebrow">Portfolio — 2025</p>
+    <h1 class="hero-name">
+      piika<br>
+      <em>alahuhta</em>
+    </h1>
+    <p class="hero-tagline fi">
+      Luova suunnittelija. Media-alan opiskelija. Projektien kesyttäjä.
+    </p>
+    <p class="hero-tagline en">
+      Creative designer. Media student. Tamer of projects.
+    </p>
+  </div>
+  <div class="hero-right">
+    <p class="hero-statement fi">
+      Katson maailmaa visuaalisesti,<br>
+      <strong>luen sitä kirjallisesti –</strong><em><br> ja etsin tapoja tehdä asioista parempia.</em>
+    </p>
+    <p class="hero-statement en">
+      I see the world visually,<br>
+      <strong>read it through language –</strong><em><br> and look for ways to make things better.</em>
+    </p>
+    <p class="hero-scroll fi">Selaa alas</p>
+    <p class="hero-scroll en">Scroll down</p>
+  </div>
+</div>
+
+<div class="full-divider"></div>
+
+<!-- ABOUT -->
+<section id="about">
+  <p class="section-label fade-in fi">Tausta</p>
+  <p class="section-label fade-in en">About</p>
+  <h2 class="section-title fade-in fi">Kuka olen, <em>mitä olen<br>tehnyt, ja miksi.</em></h2>
+  <h2 class="section-title fade-in en">Who I am, <em>what I've<br>done, and why.</em></h2>
+
+  <div class="about-grid">
+    <div class="about-sidebar fade-in">
+      <div class="about-sidebar-item">
+        <p class="about-sidebar-label fi">Kokemus</p>
+        <p class="about-sidebar-label en">Experience</p>
+        <p class="about-sidebar-value fi">20+ vuotta graafista ja luovaa suunnittelua</p>
+        <p class="about-sidebar-value en">20+ years of graphic and creative design</p>
+      </div>
+      <div class="about-sidebar-item">
+        <p class="about-sidebar-label fi">Yrittäjyys</p>
+        <p class="about-sidebar-label en">Entrepreneurship</p>
+        <p class="about-sidebar-value fi">15 vuotta toiminimellä & freelancerinä</p>
+        <p class="about-sidebar-value en">15 years as sole trader & freelancer</p>
+      </div>
+      <div class="about-sidebar-item">
+        <p class="about-sidebar-label fi">Opinnot</p>
+        <p class="about-sidebar-label en">Education</p>
+        <p class="about-sidebar-value fi">Audiovisuaalinen mediakulttuuri<br><em style="font-size:0.9em; color:var(--ash)">Kandidaatintutkielma: saamelainen elokuva</em></p><br>
+        <p class="about-sidebar-value en">Audiovisual Media Culture<br><em style="font-size:0.9em; color:var(--ash)">Bachelor's thesis: Sámi cinema</em></p><br>
+        <p class="about-sidebar-value fi">Artenomi, graafinen suunnittelu<br>
+        <p class="about-sidebar-value en">Bachelor of Culture and Arts, Graphic Design<br>
+      </div>
+      <div class="about-sidebar-item">
+        <p class="about-sidebar-label fi">Kielet</p>
+        <p class="about-sidebar-label en">Languages</p>
+        <p class="about-sidebar-value fi">Suomi · Englanti · Saksa · Ruotsi · Pohjoissaame</p>
+        <p class="about-sidebar-value en">Finnish · English · German · Swedish · Northern Sámi</p>
+      </div>
+    </div>
+
+    <div class="about-body fade-in">
+      <p class="fi">
+        Aloitin audiovisuaalisen mediakulttuurin opinnot uudelleen vuonna 2024 ohjatakseni uraani uusille alueille — suoritan nyt kandidaatin tutkintoa, jonka tutkielma käsittelee saamelaista elokuvaa: representaatiota, eksotisointia ja narratiivista toimijuutta.
+      </p>
+      <p class="en">
+        In 2024 I returned to university to steer my career in a new direction — I am currently completing a Bachelor's degree, with a thesis focusing on Sámi cinema: representation, exoticisation, and narrative agency.
+      </p>
+      <p class="fi">
+        Aiempi urani graafisena ja luovana suunnittelijana on kasvattanut kykyä nähdä kokonaisuuksia, muotoilla visuaalisia tarinoita ja kommunikoida selkeästi erilaisille yleisöille. Yrittäjyys on opettanut kantamaan vastuun koko prosessista — konseptista toteutukseen. Nämä taidot eivät katoa, ne muuntuvat.
+      </p>
+      <p class="en">
+        My background as a graphic and creative designer has sharpened my ability to see the big picture, shape visual narratives, and communicate clearly across audiences. Entrepreneurship has taught me to own the entire process — from concept to delivery. These skills don't disappear; they transform.
+      </p>
+      <p class="fi">
+        Tällä hetkellä minua kiinnostaa erityisesti se, miten käsikirjoitus ja narratiiviset rakenteet voivat haastaa stereotyyppisiä representaatioita — ja miten alkuperäiskansojen elokuva voi edistää yhdenvertaisempia suhteita.
+      </p>
+      <p class="en">
+        Right now I am especially interested in how screenwriting and narrative structures can challenge stereotypical representations, and how Indigenous cinema can foster more equitable relationships.
+      </p>
+      <div class="superpower">
+        <p class="fi">"Luova ajattelu aiheesta kuin aiheesta on supervoimani."</p>
+        <p class="en">"Creative thinking — on any subject — is my superpower."</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="full-divider"></div>
+
+<!-- WORKS -->
+<section id="works">
+  <p class="section-label fade-in fi">Työt</p>
+  <p class="section-label fade-in en">Work</p>
+  <h2 class="section-title fade-in fi"><em>Valittuja töitä</em> —<br>vanhoja ja uusia.</h2>
+  <h2 class="section-title fade-in en"><em>Selected work</em> —<br>old and new.</h2>
+
+  <div class="works-intro fade-in">
+    <p class="fi">
+      Portfolioni kertoo kahta samanaikaista tarinaa: 20 vuoden kokemuksen tuomaa ammatillista varmuutta ja suunnan muutosta kohti uutta.
+    </p>
+    <p class="en">
+      My portfolio tells two simultaneous stories: the professional confidence built over 20 years of experience, and a shift in direction toward something new.
+    </p>
+    <p class="fi">
+      Uudet koulutyöt ovat <em>work in progress</em> -caseja, prosessikuvauksia siitä, mihin olen menossa ja mitä opiskelen nyt.
+    </p>
+    <p class="en">
+      The new academic projects are <em>work in progress</em> cases, process descriptions of where I am heading and what I am learning right now.
+    </p>
+  </div>
+</section>
+
+<!-- PROJECTS — full bleed -->
+<div style="max-width:1200px; margin:0 auto; padding: 0 4rem 8rem;">
+
+  <!-- Project 1 -->
+  <div class="project fade-in">
+    <div class="project-visual cold" style="background-image: url('images/eita_kuva.jpg'); background-size: cover; background-position: center;">
+    </div>
+    <div class="project-content">
+      <p class="project-number">01</p>
+      <p class="project-category fi">Lyhytelokuva · Tuottaja</p>
+      <p class="project-category en">Short film · Producer</p>
+      <h3 class="project-title fi"><em>Ei talvikunnossapitoa</em></h3>
+      <h3 class="project-title en"><em>Ei talvikunnossapitoa – No winter maintenance</em></h3>
+      <p class="project-desc fi">
+        Toimin lyhytelokuvan tuottajana. Vastaan tuotannon kokonaiskoordinaatiosta, aikataulutuksesta ja yhteistyöstä ohjaajan sekä työryhmän kanssa. Projekti osoittaa siirrettävän osaamiseni: visuaalinen ajattelu, projektikoordinaatio ja luova päätöksenteko.
+      </p>
+      <p class="project-desc en">
+        I serve as producer on this short film. I am responsible for overall production coordination, scheduling, and collaboration with the director and crew. The project demonstrates my transferable skills: visual thinking, project coordination, and creative decision-making.
+      </p>
+      <div class="project-tags">
+        <span class="tag new fi">Tuottaminen</span>
+        <span class="tag new en">Producing</span>
+        <span class="tag new fi">Projektikoordinaatio</span>
+        <span class="tag new en">Project coordination</span>
+        <span class="tag">2024–2025</span>
+      </div>
+      <p class="project-status"><span class="status-dot active"></span>Work in progress</p>
+    </div>
+  </div>
+
+  <!-- Project 2 -->
+  <div class="project reverse fade-in">
+    <div class="project-visual mid" style="background-image: url('images/yoik_kuva.jpg'); background-size: cover; background-position: center;">
+    </div>
+    <div class="project-content">
+      <p class="project-number">02</p>
+      <p class="project-category fi">Dokumentti · Ohjaaja / käsikirjoittaja</p>
+      <p class="project-category en">Documentary · Director / screenwriter</p>
+      <h3 class="project-title"><em>Is there a Yoik? – A documentary on silence, shame and the return of Yoik</em></h3>
+      <p class="project-desc fi">
+        Oman dokumenttielokuvan työstäminen. Projekti käsittelee sitä mitä tapahtuu kulttuurille, kun hiljaisuus, häpeä ja unohtaminen siirtyvät sukupolvesta toiseen. Prosessi on avannut tähän mennessä käsikirjoittamisen, kuvausten suunnittelun ja narratiivisten valintojen logiikkaa käytännön kautta.
+      </p>
+      <p class="project-desc en">
+        Developing my own documentary film. The project examines what happens to a culture when silence, shame and forgetting are passed down through generations. The process has so far opened up the logic of screenwriting, production planning and narrative decision-making through hands-on practice.
+      </p>
+      <div class="project-tags">
+        <span class="tag new fi">Käsikirjoittaminen</span>
+        <span class="tag new en">Screenwriting</span>
+        <span class="tag new fi">Dokumenttielokuva</span>
+        <span class="tag new en">Documentary film</span>
+        <span class="tag">2024–2025</span>
+      </div>
+      <p class="project-status"><span class="status-dot active"></span>Work in progress</p>
+    </div>
+  </div>
+
+  <!-- Project 3 -->
+  <div class="project fade-in">
+    <div class="project-visual warm" style="background-image: url('images/podi_kuva.jpg'); background-size: cover; background-position: center;">
+    </div>
+    <div class="project-content">
+      <p class="project-number">03</p>
+      <p class="project-category fi">Podcast · Toimittaja / tuottaja</p>
+      <p class="project-category en">Podcast · Host / producer</p>
+      <h3 class="project-title fi"><em>Ei se mitään -podcastsarjan ensimmäinen jakso Rakkaita ja paskoja biisejä</em></h3>
+      <h3 class="project-title en"><em>It´s okay – podcast series, episode one: Beloved and Shitty Songs</em></h3>
+      <p class="project-desc fi">
+        Podcastin ensimmäinen jakso julkaistaan keväällä. Prosessi kattaa konseptoinnin, haastattelun, äänituotannon ja jälkityöstön. Äänikurssin lopputyödemo liittyy samaan kokonaisuuteen teknisen opettelun osalta. Äänikurssin teos on äänitaideteos, joka käsittelee oman äidin kielen opettelun vaikeutta ja sen vaikutusta identiteettiin.
+      </p>
+      <p class="project-desc en">
+        The first episode launches in spring. The process covers concept development, interviewing, audio production and post-production. The sound course final demo is part of the same whole on the technical learning side. The sound art piece explores the difficulty of learning one's mother tongue and its impact on identity.
+      </p>
+      <div class="project-tags">
+        <span class="tag new fi">Äänituotanto</span>
+        <span class="tag new en">Audio production</span>
+        <span class="tag new fi">Toimittaminen</span>
+        <span class="tag new en">Hosting</span>
+        <span class="tag">2024–2025</span>
+      </div>
+      <p class="project-status"><span class="status-dot active"></span>Work in progress</p>
+    </div>
+  </div>
+
+  <!-- Project 4 — vanha -->
+  <div class="project reverse fade-in">
+    <div class="project-visual pale" style="background-image: url('images/care_kuva.jpg'); background-size: cover; background-position: center;">
+    </div>
+    <div class="project-content">
+      <p class="project-number">04</p>
+      <p class="project-category fi">Visuaalinen identiteetti · Graafikko</p>
+      <p class="project-category en">Visual identity · Graphic designer</p>
+      <h3 class="project-title"><em>Career.fi</em></h3>
+      <p class="project-desc fi">
+        Esimerkki pitkän kokemuksen aikana tehdystä visuaalisesta identiteettityöstä. Projekti kattoi nimen, visuaalisen ilmeen ja viestinnälliset materiaalit kokonaisuutena, alusta loppuun.
+      </p>
+      <p class="project-desc en">
+        An example of visual identity work from years of professional practice. The project covered naming, visual identity and communications materials as a whole, from start to finish.
+      </p>
+      <div class="project-tags">
+        <span class="tag fi">Brändäys</span>
+        <span class="tag en">Branding</span>
+        <span class="tag fi">Graafinen suunnittelu</span>
+        <span class="tag en">Graphic design</span>
+        <span class="tag fi">Konseptointi</span>
+        <span class="tag en">Concept development</span>
+      </div>
+      <p class="project-status"><span class="status-dot complete"></span><span class="fi">Valmis</span><span class="en">Complete</span></p>
+    </div>
+  </div>
+
+  <!-- Project 5 — tapahtumasuunnittelu -->
+  <div class="project fade-in">
+    <div class="project-visual cold" style="background:#1a2a32; background-image: url('images/tale_kuva.jpg'); background-size: cover; background-position: center;">
+    </div>
+    <div class="project-content">
+      <p class="project-number">05</p>
+      <p class="project-category fi">Tapahtumasuunnittelu · Konsepti & visuaalinen suunnittelu</p>
+      <p class="project-category en">Event design · Concept & visual design</p>
+      <h3 class="project-title fi"><em>Sulla on Talenttii</em></h3>
+      <h3 class="project-title en"><em>Sulla on Talenttii – You have Talent</em></h3>
+      <p class="project-desc fi">
+        Vastasin tapahtuman konseptoinnista, visuaalisesta suunnittelusta ja markkinoinnin toteutuksesta. Lisäksi ideoin ohjelmanumeroita, esiintyjiä ja tapahtumapaikkaa. Työ kuvaa kykyäni hahmottaa kokonaisuus ja viedä luova ajattelu käytännön viestinnäksi.
+      </p>
+      <p class="project-desc en">
+        I was responsible for the event concept, visual design and marketing execution. I also developed programme ideas, performers and the venue. The work reflects my ability to grasp a whole and translate creative thinking into practical communications.
+      </p>
+      <div class="project-tags">
+        <span class="tag fi">Konseptointi</span>
+        <span class="tag en">Concept development</span>
+        <span class="tag fi">Visuaalinen suunnittelu</span>
+        <span class="tag en">Visual design</span>
+        <span class="tag fi">Markkinointi</span>
+        <span class="tag en">Marketing</span>
+        <span class="tag fi">Ideointi</span>
+        <span class="tag en">Ideation</span>
+      </div>
+      <p class="project-status"><span class="status-dot complete"></span><span class="fi">Valmis</span><span class="en">Complete</span></p>
+    </div>
+  </div>
+
+</div>
+
+<!-- SKILLS -->
+<div id="skills" style="background:var(--arctic); padding: 8rem 4rem;">
+  <div style="max-width:1200px; margin:0 auto;">
+    <p class="section-label fade-in fi">Osaaminen</p>
+    <p class="section-label fade-in en">Skills</p>
+    <h2 class="section-title fade-in fi" style="color:var(--paper); max-width:28ch;">
+      Pitkä kokemus luovasta työstä<br><em>muuntuu uuteen kontekstiin.</em>
+    </h2>
+    <h2 class="section-title fade-in en" style="color:var(--paper); max-width:28ch;">
+      Years of creative experience<br><em>translating into a new context.</em>
+    </h2>
+
+    <div class="skills-grid">
+      <div class="skill-group fade-in">
+        <p class="skill-group-title fi">Luova suunnittelu</p>
+        <p class="skill-group-title en">Creative design</p>
+        <div class="skill-item">
+          <span class="skill-name fi">Visuaalinen identiteetti</span>
+          <span class="skill-name en">Visual identity</span>
+          <span class="skill-years">20 v.</span>
+        </div>
+        <div class="skill-item">
+          <span class="skill-name fi">Konseptointi</span>
+          <span class="skill-name en">Concept development</span>
+          <span class="skill-years">20 v.</span>
+        </div>
+        <div class="skill-item">
+          <span class="skill-name fi">Taittaminen & julkaisut</span>
+          <span class="skill-name en">Layout & publications</span>
+          <span class="skill-years">20 v.</span>
+        </div>
+        <div class="skill-item">
+          <span class="skill-name fi">Liikepaikkasuunnittelu</span>
+          <span class="skill-name en">Retail space design</span>
+          <span class="skill-years">15 v.</span>
+        </div>
+        <div class="skill-item">
+          <span class="skill-name fi">Tapahtumasuunnittelu</span>
+          <span class="skill-name en">Event design</span>
+          <span class="skill-years">15 v.</span>
+        </div>
+      </div>
+
+      <div class="skill-group fade-in">
+        <p class="skill-group-title fi">Kirjoittaminen</p>
+        <p class="skill-group-title en">Writing</p>
+        <div class="skill-item">
+          <span class="skill-name fi">Mainosteksti & copywriting</span>
+          <span class="skill-name en">Ad copy & copywriting</span>
+          <span class="skill-years">20 v.</span>
+        </div>
+        <div class="skill-item">
+          <span class="skill-name fi">Nimet & sloganit</span>
+          <span class="skill-name en">Name desing & slogans</span>
+          <span class="skill-years">20 v.</span>
+        </div>
+        <div class="skill-item">
+          <span class="skill-name fi">Tapahtumasuunnittelu</span>
+          <span class="skill-name en">Event design</span>
+          <span class="skill-years">15 v.</span>
+        </div>
+        <div class="skill-item">
+          <span class="skill-name fi">Käsikirjoittaminen</span>
+          <span class="skill-name en">Screenwriting</span>
+          <span class="skill-years" style="color:var(--ember)" >kehittyvä</span>
+        </div>
+        <div class="skill-item">
+          <span class="skill-name fi">Akateeminen kirjoittaminen</span>
+          <span class="skill-name en">Academic writing</span>
+          <span class="skill-years" style="color:var(--ember)">kehittyvä</span>
+        </div>
+      </div>
+
+      <div class="skill-group fade-in">
+        <p class="skill-group-title fi">Media & tuotanto</p>
+        <p class="skill-group-title en">Media & production</p>
+        <div class="skill-item">
+          <span class="skill-name fi">Lyhytelokuvan tuottaminen</span>
+          <span class="skill-name en">Short film producing</span>
+          <span class="skill-years" style="color:var(--ember)">uusi</span>
+        </div>
+        <div class="skill-item">
+          <span class="skill-name fi">Dokumenttielokuva</span>
+          <span class="skill-name en">Documentary film</span>
+          <span class="skill-years" style="color:var(--ember)">uusi</span>
+        </div>
+        <div class="skill-item">
+          <span class="skill-name fi">Äänituotanto & podcast</span>
+          <span class="skill-name en">Audio production & podcast</span>
+          <span class="skill-years" style="color:var(--ember)">uusi</span>
+        </div>
+        <div class="skill-item">
+          <span class="skill-name fi">Projektinhallinta</span>
+          <span class="skill-name en">Project management</span>
+          <span class="skill-years">20 v.</span>
+        </div>
+        <div class="skill-item">
+          <span class="skill-name fi">Asiakastyö & yrittäjyys</span>
+          <span class="skill-name en">Client work & entrepreneurship</span>
+          <span class="skill-years">15 v.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DIRECTION -->
+<div class="direction-block" id="direction">
+  <div class="direction-inner">
+    <p class="direction-quote fade-in fi">
+      "Löydän oman ääneni<br>
+      <span>henkilöhistorian,<br>
+      yhteisöllisen muistin<br>
+      ja kriittisen reflektion</span><br>
+      risteyksessä."
+    </p>
+    <p class="direction-quote fade-in en">
+      "I find my own voice<br>
+      at the intersection of<br>
+      <span>personal history,<br>
+      collective memory<br>
+      and critical reflection.</span>"
+    </p>
+    <ul class="direction-list fade-in">
+      <li><span class="fi">Käsikirjoittaminen — erityisenä kiinnostuksena alkuperäiskansojen tarinat</span><span class="en">Screenwriting — with a particular interest in Indigenous stories</span></li>
+      <li><span class="fi">Elokuva- ja tapahtumatuottaminen</span><span class="en">Film and event producing</span></li>
+      <li><span class="fi">Lastenkirjojen kirjoittaminen</span><span class="en">Writing children's books</span></li>
+      <li><span class="fi">Luova suunnittelija elokuva- ja mediatuotannoissa</span><span class="en">Creative designer in film and media productions</span></li>
+      <li><span class="fi">Saamelaisen elokuvakulttuurin tukeminen laajemmille yleisöille</span><span class="en">Supporting Sámi film culture for wider audiences</span></li>
+      <li><span class="fi">Maisteriopinnot audiovisuaalisessa mediakulttuurissa</span><span class="en">Master's studies in audiovisual media culture</span></li>
+    </ul>
+  </div>
+</div>
+
+<!-- FOOTER / CONTACT -->
+<footer>
+  <div class="fade-in">
+    <h2 class="footer-headline fi">
+      Ollaan yhteyksissä<br>
+      ja <em>tehdään jotain<br>
+      merkityksellistä.</em>
+    </h2>
+    <h2 class="footer-headline en">
+      Let's connect<br>
+      and <em>make things<br>
+      that matters.</em>
+    </h2>
+  </div>
+  <div class="fade-in">
+    <p class="footer-contact-label fi">Sähköposti</p>
+    <p class="footer-contact-label en">Email</p>
+    <a href="/cdn-cgi/l/email-protection#87e2eae6eeebc7e2f4eeeae2f5ececeea9e1ee" class="footer-contact-email">piikanposti{ät}gmail.com</a>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-copy">© 2025 piika alahuhta — portfolio</p>
+    <div style="display:flex; align-items:center; gap:2rem;">
+      <a href="images/cv.pdf" target="_blank" rel="noopener" style="font-family:'Space Mono',monospace; font-size:0.6rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--ember); text-decoration:none; border-bottom:1px solid var(--ember); padding-bottom:2px;"><span class="fi">Lataa CV</span><span class="en">Download CV</span> ↗</a>
+      <p class="footer-note fi">Tämä portfolio on elävä dokumentti — kasvaa tekijänsä mukana.</p>
+      <p class="footer-note en">This portfolio is a living document — growing alongside its maker.</p>
+    </div>
+  </div>
+</footer>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+<script>
+  // Language switcher
+  function setLang(lang) {
+    document.getElementById('html-root').setAttribute('lang', lang);
+    document.getElementById('btn-fi').classList.toggle('active', lang === 'fi');
+    document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+  }
+
+  // Prep all fade-in elements then animate on scroll
+  const els = document.querySelectorAll('.fade-in');
+  els.forEach(el => el.classList.add('animate-start'));
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  els.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
